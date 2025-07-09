@@ -2,21 +2,48 @@
 
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
-
 {% if user.is_authenticated %}
 
-<h1>Hello World!</h1>
+<h1>Records</h1><br><br>
+
+<table class="table table-striped table-hover table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">SRL</th>
+      <th scope="col">Date Created</th>
+      <th scope="col">NAME</th>
+      <th scope="col">Address</th>
+      <th scope="col">State</th>
+      <th scope="col">Email</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% if records %}
+      {% for record in records %} 
+      <tr>
+       <td> <a href="{% url 'record' record.id %}">{{ record.id }}</a></td>  
+       <td>{{ record.created_at }}</td>  
+       <td>{{ record.first_name }} {{ record.last_name }} </td>
+       <td>{{ record.address }} </td> 
+       <td>{{ record.state }}</td>  
+       <td>{{ record.email }}</td> 
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
 
 {% else %}
+<div class="col-md-6 offset-md-3">
 <h1>Login</h1>
 <br>
 
-<form method="POST" action="{% url 'home' %}">
+<form method="POST" action="">
 
 	{% csrf_token %}
-
-	<form>
+		<!-- {{form.as_p}} -->
+	
   <div class="mb-3">
     
     <input type="text" class="form-control" name="username" placeholder="Username" required>
@@ -28,12 +55,10 @@
   </div>
   <br>
   <button type="submit" class="btn btn-primary">login</button>
-</form>
 	
 </form>
 
 </div>
-
 {% endif %}
 
 {% endblock %} 
